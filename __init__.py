@@ -44,7 +44,7 @@ g = 2 # prime generator g= 5
 def create_dh_key():
     # Creates a Diffie-Hellman key
     # Returns (public, private)
-    a = random.randint(0, int(2**8))
+    a = random.randint(0, int(2**8))# change **
     return (a, a)
 
 def calculate_dh_secret(their_public, my_private):
@@ -57,6 +57,6 @@ def calculate_dh_secret(their_public, my_private):
     # (b) We can convert to raw bytes easily
     # (c) We could add additional information if we wanted
     # Feel free to change SHA256 to a different value if more appropriate
-    shared_hash = SHA256.new(bytes(str(shared_secret), "ascii")).hexdigest()# putted the str and brackets after the shared _ secret
+    shared_hash = SHA256.new(bytes(str(shared_secret), "ascii")).hexdigest()# putted the str and brackets after the shared _ secret to convert bytes to strings
     return shared_hash
 
