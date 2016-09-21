@@ -1,6 +1,8 @@
 import struct
+import base64
 
 from Crypto.Cipher import XOR
+from Crypto.Hash import SHA256
 
 from dh import create_dh_key, calculate_dh_secret
 
@@ -11,10 +13,12 @@ class StealthConn(object):
         self.client = client
         self.server = server
         self.verbose = verbose
+        self.key = None
+        self.iv = None
+        self.shared_hash = None
         self.initiate_session()
 
     def initiate_session(self):
-        # This can be broken into code run just on the server or just on the client
         if self.server or self.client:
             my_public_key, my_private_key = create_dh_key()
             self.send(bytes(str(my_public_key), "ascii"))
@@ -25,8 +29,19 @@ class StealthConn(object):
             # Obtain our shared secret
             print("Shared hash: {}".format(shared_hash))
             # Prints shared hash on session establishment
+            self.key = self.shared_hash[32:]
+            # Took this key from the last 32 bytes of shared key
             self.shared_hash = shared_hash
-            # References
+            #Shared key is referenced
+            self.iv = self.shared_hash[16:]
+            # IV is from the last 16 bytes of shared key
+            print("SELF.IV in INITIATE_SESSION is: " + str(self.iv))
+            # Prints IV as a string
+            print(SELF.KEY is: " + str(self.key))
+            #prints self as string
+            self.cipher = (self.key, AES.MODE_CBC, self.iv)
+            
+            
 
         # Default XOR algorithm can only take a key of length 32
         self.cipher = XOR.new(shared_hash[:4])
