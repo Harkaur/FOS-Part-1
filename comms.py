@@ -32,7 +32,7 @@ class StealthConn(object):
             self.key = self.shared_hash[32:]
             # Took this key from the last 32 bytes of shared key
             self.shared_hash = shared_hash
-            #Shared key is referenced
+            #References shared hash
             self.iv = self.shared_hash[16:]
             # IV is from the last 16 bytes of shared key
             print("SELF.IV in INITIATE_SESSION is: " + str(self.iv))
