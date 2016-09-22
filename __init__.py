@@ -5,10 +5,8 @@ from lib.helpers import read_hex
 
 # Project TODO: Is this the best choice of prime? Why? Why not? Feel free to replace!
 
-
+# Replaced 1536 bit to 4096 bit   for diffie hellman key exchange 
 # obtained from RFC 3526
-
-#4096 bit for df key exchange
 
 raw_prime= """FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
@@ -37,7 +35,7 @@ raw_prime= """FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
 
 # Convert from the value supplied in the RFC to an integer
 prime = read_hex(raw_prime)
-g = 2 # prime generator g= 5
+g = 5 # prime generator 5
 
 # Project TODO: write the appropriate code to perform DH key exchange
 
