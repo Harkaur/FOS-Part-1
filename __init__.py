@@ -5,10 +5,13 @@ from lib.helpers import read_hex
 
 # Project TODO: Is this the best choice of prime? Why? Why not? Feel free to replace!
 
-# Replaced 1536 bit to 4096 bit   for diffie hellman key exchange 
-# obtained from RFC 3526
 
-raw_prime= """FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
+
+# Subsituted 1536 bit to 4096 bit size a large prime
+# 4096 bit was chosen for diffie hellman key exchange 
+# Got from RFC 3526
+
+raw_prime= """ FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
       29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
       EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
       E485B576 625E7EC6 F44C42E9 A637ED6B 0BFF5CB6 F406B7ED
@@ -35,19 +38,21 @@ raw_prime= """FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
 
 # Convert from the value supplied in the RFC to an integer
 prime = read_hex(raw_prime)
-g = 5 # prime generator 5
+g = 5 # generator g is chosen 5
 
 # Project TODO: write the appropriate code to perform DH key exchange
 
 def create_dh_key():
     # Creates a Diffie-Hellman key
     # Returns (public, private)
-    a = random.randint(0, int(2**8))# change **
-    return (a, a)
+ 
+    private = random.int(0,prime)#creating the private key
+    public = pow(g, private, prime)# creating the public key
+    return (public, private)
 
 def calculate_dh_secret(their_public, my_private):
     # Calculate the shared secret
-    shared_secret = pow(their_public, my_private,prime) # before it was ( therir public * my_private and removed *)
+    shared_secret = pow(their_public, my_private,prime) 
 
     # Hash the value so that:
     # (a) There's no bias in the bits of the output
@@ -55,6 +60,6 @@ def calculate_dh_secret(their_public, my_private):
     # (b) We can convert to raw bytes easily
     # (c) We could add additional information if we wanted
     # Feel free to change SHA256 to a different value if more appropriate
-    shared_hash = SHA256.new(bytes(str(shared_secret), "ascii")).hexdigest()# putted the str and brackets after the shared _ secret to convert bytes to strings
+    shared_hash = SHA256.new(bytes(str(shared_secret), "ascii")).hexdigest()
     return shared_hash
 
