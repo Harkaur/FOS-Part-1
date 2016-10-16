@@ -1,0 +1,9 @@
+Enable signing and verification for any botnet updates. This requires signing code in master sign.py and verification code in the verify file function in lib/files.py.
+Ensure upload valuables to pastebot securely encrypts the data so it’s only accessible to the botnet master. You also need to modify mas- ter view.py to allow the file to be decrypted and read by the botnet master.
+￼￼￼￼￼￼We will BE  testED ON  that WE can:
+• Create and sign a new botnet update
+• Test bot update verification by trying to download a legitimate update and a fradulent update from pastebot.net
+• Test bot update verification when downloading updates via P2P
+• Upload valuables of arbitrary size to pastebot.net in an encrypted man-
+ner
+• Decrypt encrypted valuables of arbitrary size using the botnet master’s private key
