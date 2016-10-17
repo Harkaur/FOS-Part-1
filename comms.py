@@ -1,8 +1,6 @@
 import struct
-import base64
 
 from Crypto.Cipher import XOR
-from Crypto.Hash import SHA256
 
 from dh import create_dh_key, calculate_dh_secret
 
@@ -13,35 +11,22 @@ class StealthConn(object):
         self.client = client
         self.server = server
         self.verbose = verbose
-        self.key = None
-        self.iv = None
-        self.shared_hash = None
         self.initiate_session()
 
     def initiate_session(self):
+        # Perform the initial connection handshake for agreeing on a shared secret
+
+        ### TODO: Your code here!
+        # This can be broken into code run just on the server or just on the client
         if self.server or self.client:
             my_public_key, my_private_key = create_dh_key()
-            self.send(bytes(str(my_public_key), "ascii"))
             # Send them our public key
-            their_public_key = int(self.recv())
+            self.send(bytes(str(my_public_key), "ascii"))
             # Receive their public key
-            shared_hash = calculate_dh_secret(their_public_key, my_private_key)
+            their_public_key = int(self.recv())
             # Obtain our shared secret
+            shared_hash = calculate_dh_secret(their_public_key, my_private_key)
             print("Shared hash: {}".format(shared_hash))
-            # Prints shared hash on session establishment
-            self.key = self.shared_hash[32:]
-            # Took this key from the last 32 bytes of shared key
-            self.shared_hash = shared_hash
-            #References shared hash
-            self.iv = self.shared_hash[16:]
-            # IV is from the last 16 bytes of shared key
-            print("SELF.IV in INITIATE_SESSION is: " + str(self.iv))
-            # Prints IV as a string
-            print(SELF.KEY is: " + str(self.key))
-            #prints self as string
-            self.cipher = (self.key, AES.MODE_CBC, self.iv)
-            
-            
 
         # Default XOR algorithm can only take a key of length 32
         self.cipher = XOR.new(shared_hash[:4])
@@ -71,5 +56,13 @@ class StealthConn(object):
         if self.cipher:
             data = self.cipher.decrypt(encrypted_data)
             if self.verbose:
-                print("Receiving packet of lenimport struct
+                print("Receiving packet of length {}".format(pkt_len))
+                print("Encrypted data: {}".format(repr(encrypted_data)))
+                print("Original data: {}".format(data))
+        else:
+            data = encrypted_data
 
+        return data
+
+    def close(self):
+        self.conn.close()
